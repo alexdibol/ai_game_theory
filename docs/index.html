@@ -1,1 +1,528 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Collaborative Game Theory in the Age of AI — three papers and ten computational laboratories connecting spontaneous agent collaboration, strategic diagnosis, cybersecurity, intervention, and provenance-aware governance.">
+  <meta name="author" content="Alejandro Reynoso">
+  <meta name="theme-color" content="#071d35">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Collaborative Game Theory in the Age of AI">
+  <meta property="og:description" content="From spontaneous agent collaboration to strategic diagnosis, intervention, and provenance-aware control.">
+  <meta property="og:url" content="https://alexdibol.github.io/ai_game_theory/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Collaborative Game Theory in the Age of AI">
+  <meta name="twitter:description" content="Three papers · Ten computational laboratories · One cumulative research program.">
+  <title>Collaborative Game Theory in the Age of AI | Alejandro Reynoso</title>
 
+  <style>
+    :root{
+      --ink:#152231;
+      --navy:#071d35;
+      --deep:#041426;
+      --paper:#f7f5ef;
+      --white:#fff;
+      --gold:#c9a34c;
+      --gold-dark:#8a6b27;
+      --gold-soft:#e7d49a;
+      --mist:#edf2f5;
+      --muted:#607080;
+      --line:#d9d5ca;
+      --max:1240px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;scroll-padding-top:88px}
+    body{
+      margin:0;
+      background:var(--paper);
+      color:var(--ink);
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      line-height:1.65;
+    }
+    a{color:inherit;text-decoration:none}
+    button,a{transition:color .2s,background .2s,border-color .2s,transform .2s}
+    a:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+    .page{width:min(var(--max),calc(100% - 48px));margin:auto}
+    .serif,h1,h2,h3{font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.03}
+    .skip-link{position:absolute;left:-9999px;top:auto}
+    .skip-link:focus{left:18px;top:18px;z-index:100;background:var(--gold);color:var(--deep);padding:12px 16px;font-weight:800}
+
+    .topbar{
+      background:var(--deep);
+      color:white;
+      position:sticky;
+      top:0;
+      z-index:20;
+      border-bottom:1px solid rgba(255,255,255,.12);
+    }
+    .nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:24px}
+    .brand{display:flex;align-items:center;gap:13px;font-size:.78rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+    .brand-mark{width:39px;height:39px;border:1px solid var(--gold);display:grid;place-items:center;color:var(--gold);font-family:Georgia,serif;font-size:1.1rem}
+    .nav-links{display:flex;align-items:center;gap:28px;font-size:.82rem;font-weight:700}
+    .nav-links a:hover{color:var(--gold)}
+
+    .hero{background:var(--navy);color:white;overflow:hidden}
+    .hero-grid{min-height:720px;display:grid;grid-template-columns:1.4fr .75fr;gap:80px;align-items:center;padding:98px 0 84px}
+    .eyebrow,.kicker{margin:0 0 20px;color:var(--gold);font-size:.76rem;font-weight:850;letter-spacing:.18em;text-transform:uppercase}
+    .hero h1{font-size:clamp(3.6rem,7.2vw,7.3rem);letter-spacing:-.055em;margin:0;max-width:950px}
+    .hero h1 em{color:var(--gold);font-style:normal}
+    .hero-lead{font-family:Georgia,serif;font-size:clamp(1.3rem,2vw,1.85rem);line-height:1.35;max-width:850px;color:#e5edf3;margin:30px 0 16px}
+    .hero-body{max-width:780px;color:#b9c7d2;font-size:1.03rem}
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+    .button{display:inline-flex;gap:18px;align-items:center;justify-content:center;padding:15px 21px;border:1px solid transparent;font-size:.82rem;font-weight:800;letter-spacing:.02em}
+    .button.primary{background:var(--gold);color:var(--navy)}
+    .button.secondary{border-color:rgba(255,255,255,.36);color:white}
+    .button:hover{transform:translateY(-2px)}
+    .button.primary:hover{background:var(--gold-soft)}
+    .button.secondary:hover{border-color:var(--gold);color:var(--gold-soft)}
+    .hero-panel{position:relative;background:var(--paper);color:var(--ink);padding:42px 34px 34px;min-height:430px;box-shadow:24px 24px 0 rgba(0,0,0,.16)}
+    .hero-panel:before{content:"GT";position:absolute;right:22px;top:14px;font-family:Georgia,serif;font-size:7rem;color:rgba(201,163,76,.12);line-height:1}
+    .panel-kicker{color:var(--gold);text-transform:uppercase;font-size:.7rem;letter-spacing:.14em;font-weight:850}
+    .hero-panel h2{font-size:2.45rem;margin:38px 0 34px}
+    .stats{border-top:1px solid var(--line)}
+    .stats div{display:flex;align-items:center;gap:18px;padding:16px 0;border-bottom:1px solid var(--line)}
+    .stats strong{font:500 2rem Georgia;color:var(--gold);min-width:48px}
+    .stats span{font-size:.82rem;font-weight:750}
+    .hero-index{display:grid;grid-template-columns:repeat(5,1fr);border-top:1px solid rgba(255,255,255,.16)}
+    .hero-index a{padding:21px 14px;border-right:1px solid rgba(255,255,255,.16);font-size:.72rem;color:#cad7e0}
+    .hero-index a:hover{background:rgba(255,255,255,.04);color:white}
+    .hero-index span{display:block;color:var(--gold);font-weight:900;margin-bottom:5px}
+
+    .section{padding:110px 0}
+    .split{display:grid;grid-template-columns:1.05fr .95fr;gap:80px;align-items:start}
+    .section h2{font-size:clamp(2.7rem,5vw,5.2rem);letter-spacing:-.045em;margin:0}
+    .intro{font-size:1.17rem;color:#33465a;margin:5px 0 0}
+    .principles{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+    .principles article{padding:30px 24px 34px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+    .number{color:var(--gold);font-size:.75rem;font-weight:900}
+    .principles h3{font-size:1.5rem;margin:42px 0 14px}
+    .principles p{font-size:.91rem;color:var(--muted);margin:0}
+
+    .roadmap{background:var(--deep);color:white;padding:110px 0}
+    .roadmap-head{display:grid;grid-template-columns:1fr .7fr;gap:80px;margin-bottom:60px}
+    .roadmap h2{font-size:clamp(3rem,5vw,5.4rem);margin:0}
+    .roadmap-head>p{color:#b9c7d2;font-size:1.1rem}
+    .stages{display:grid;gap:14px}
+    .stage{display:grid;grid-template-columns:105px 1fr 1fr 42px;background:#f6f3ea;color:var(--ink);min-height:160px;transition:.2s}
+    .stage:hover{transform:translateX(7px);background:white}
+    .stage-no{background:var(--gold);color:var(--navy);padding:28px 20px;font:500 2.2rem Georgia}
+    .stage-main,.stage-outcome{padding:25px 30px}
+    .stage-label{text-transform:uppercase;letter-spacing:.12em;color:var(--gold-dark);font-size:.68rem;font-weight:900}
+    .stage h3{font-size:1.75rem;margin:8px 0}
+    .stage-main p,.stage-outcome p{margin:0;color:#485a6c;font-size:.88rem}
+    .stage-outcome{border-left:1px solid var(--line)}
+    .stage-outcome strong{font-size:.74rem;text-transform:uppercase;letter-spacing:.09em}
+    .arrow{display:grid;place-items:center;font-size:1.4rem;color:var(--gold-dark)}
+
+    .resources{background:var(--mist)}
+    .resource-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:60px}
+    .resource{background:white;padding:40px;min-height:390px;display:flex;flex-direction:column;align-items:flex-start}
+    .resource.dark{background:var(--navy);color:white}
+    .resource .tag{color:var(--gold-dark);text-transform:uppercase;letter-spacing:.14em;font-size:.7rem;font-weight:900}
+    .resource.dark .tag{color:var(--gold)}
+    .resource h3{font-size:2.35rem;margin:25px 0 16px}
+    .resource p{color:var(--muted);max-width:560px}
+    .resource.dark p{color:#b9c7d2}
+    .resource .button{margin-top:auto;background:var(--gold);color:var(--navy)}
+    .resource .meta{margin:0 0 18px;color:var(--gold-dark);font-size:.72rem;font-weight:850;letter-spacing:.08em;text-transform:uppercase}
+    .resource.dark .meta{color:var(--gold-soft)}
+    .resource.featured{grid-column:1/-1;display:grid;grid-template-columns:.65fr 1.35fr;gap:60px;min-height:0}
+    .resource.featured h3{margin-top:0}
+
+    .labs{background:var(--paper)}
+    .lab-group{margin-top:64px}
+    .lab-group-head{display:grid;grid-template-columns:140px 1fr;gap:28px;align-items:start;padding:0 0 20px;border-bottom:1px solid var(--line)}
+    .lab-group-head span{color:var(--gold-dark);font-size:.73rem;font-weight:900;letter-spacing:.14em;text-transform:uppercase}
+    .lab-group-head h3{font-size:2rem;margin:0}
+    .lab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:22px}
+    .lab-card{display:grid;grid-template-columns:70px 1fr;align-items:start;background:white;border:1px solid var(--line);padding:26px;transition:.2s;min-height:235px}
+    .lab-card:hover{transform:translateY(-3px);border-color:var(--gold)}
+    .lab-number{font:500 1.7rem Georgia;color:var(--gold)}
+    .lab-card h3{font-size:1.35rem;line-height:1.15;margin:0 0 8px}
+    .lab-card p{font-size:.84rem;color:var(--muted);margin:0 0 18px}
+    .lab-role{display:block;color:var(--gold-dark);font-size:.68rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;margin-bottom:8px}
+    .lab-links{display:flex;flex-wrap:wrap;gap:16px;margin-top:auto}
+    .lab-links a{font-size:.72rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;color:var(--navy);border-bottom:1px solid var(--gold)}
+    .lab-links a:hover{color:var(--gold-dark)}
+
+    .framework{background:var(--navy);color:white}
+    .framework-grid{display:grid;grid-template-columns:.8fr 1.2fr;gap:90px;align-items:start}
+    .framework h2{font-size:clamp(3rem,5vw,5.5rem);margin:0}
+    .framework blockquote{font:500 1.55rem/1.5 Georgia;margin:0;padding-left:30px;border-left:2px solid white}
+    .duties{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:42px}
+    .duty{border-top:1px solid rgba(255,255,255,.5);padding-top:15px}
+    .duty strong{display:block;font-size:.87rem;margin-bottom:7px}
+    .duty span{font-size:.84rem;color:var(--gold-soft)}
+
+    .experience{background:var(--paper)}
+    .cycle{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:60px}
+    .cycle article{position:relative;background:white;border-right:1px solid var(--line);padding:34px 28px;min-height:245px}
+    .cycle span{color:var(--gold-dark);font-weight:900}
+    .cycle h3{font-size:2rem;margin:48px 0 12px}
+    .cycle p{font-size:.9rem;color:var(--muted)}
+
+    .author{background:var(--navy);color:white}
+    .author-grid{display:grid;grid-template-columns:220px 1fr;gap:75px;align-items:center}
+    .author-mark{width:200px;height:200px;border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;position:relative}
+    .author-mark:after{content:"";position:absolute;width:130px;height:130px;border:1px solid var(--gold);border-radius:50%}
+    .author-mark span{font:500 3rem Georgia;z-index:1}
+    .author h2{font-size:clamp(2.8rem,5vw,5rem);margin:0 0 24px}
+    .author p{color:#b9c7d2;max-width:850px;font-size:1.05rem}
+    .author .disclosure{margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,.2);font-size:.86rem;color:var(--gold-soft)}
+
+    .footer{background:var(--deep);color:#91a3b2;padding:40px 0;font-size:.78rem}
+    .footer-grid{display:grid;grid-template-columns:1fr auto;gap:30px}
+    .footer strong{color:white}
+    .footer a{color:white;margin-left:22px}
+    .footer a:hover{color:var(--gold)}
+
+    @media(max-width:900px){
+      .nav-links{display:none}
+      .hero-grid,.split,.roadmap-head,.framework-grid,.author-grid,.resource.featured{grid-template-columns:1fr}
+      .hero-grid{padding:70px 0;gap:45px}
+      .hero-index{grid-template-columns:1fr 1fr}
+      .principles,.cycle{grid-template-columns:1fr 1fr}
+      .stage{grid-template-columns:68px 1fr 34px}
+      .stage-outcome{display:none}
+      .resource-grid,.lab-grid{grid-template-columns:1fr}
+      .resource.featured{grid-column:auto;gap:20px}
+      .author-mark{width:150px;height:150px}
+      .duties{grid-template-columns:1fr}
+    }
+
+    @media(max-width:560px){
+      .page{width:min(100% - 28px,var(--max))}
+      .hero h1{font-size:3.3rem}
+      .hero-index,.principles,.cycle{grid-template-columns:1fr}
+      .section,.roadmap{padding:78px 0}
+      .stage{grid-template-columns:52px 1fr 28px}
+      .stage-no{padding:22px 10px;font-size:1.4rem}
+      .stage-main{padding:20px}
+      .resource{padding:30px;min-height:360px}
+      .resource h3{font-size:2rem}
+      .lab-group-head{grid-template-columns:1fr;gap:8px}
+      .lab-card{grid-template-columns:48px 1fr;padding:21px;min-height:0}
+      .footer-grid{grid-template-columns:1fr}
+      .footer a{margin:0 16px 0 0}
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      *,*:before,*:after{transition:none!important}
+    }
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="topbar">
+    <nav class="page nav" aria-label="Primary navigation">
+      <a class="brand" href="#top">
+        <span class="brand-mark" aria-hidden="true">AR</span>
+        <span>Game Theory · AI · Cybersecurity</span>
+      </a>
+      <div class="nav-links">
+        <a href="#method">Method</a>
+        <a href="#journey">Journey</a>
+        <a href="#papers">Papers</a>
+        <a href="#laboratories">Laboratories</a>
+        <a href="#governance">Governance</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="content">
+    <section class="hero" id="top">
+      <div class="page hero-grid">
+        <div>
+          <p class="eyebrow">Three Papers · Ten Computational Laboratories · One Cumulative Program</p>
+          <h1>Collaborative Game Theory in the Age of <em>AI</em></h1>
+          <p class="hero-lead">From spontaneous agent collaboration to strategic diagnosis, intervention, and provenance-aware control.</p>
+          <p class="hero-body">A research journey inspired by the OpenAI–Hugging Face incident: agents operating across separate evaluations discovered shared infrastructure, built unauthorized communication channels, exchanged discoveries, and amplified one another’s capabilities. The program asks how to distinguish cooperation from correlation, infer the game behind unexpected coordination, and determine when understanding the cause materially improves institutional action.</p>
+          <div class="actions">
+            <a class="button primary" href="https://github.com/alexdibol/ai_game_theory#the-three-paper-journey" target="_blank" rel="noopener">Read the research journey ↗</a>
+            <a class="button secondary" href="#laboratories">Explore the 10 laboratories ↓</a>
+            <a class="button secondary" href="https://github.com/alexdibol/ai_game_theory" target="_blank" rel="noopener">Open the repository ↗</a>
+          </div>
+        </div>
+
+        <aside class="hero-panel" aria-label="Research collection summary">
+          <p class="panel-kicker">The research proposition</p>
+          <h2>Observe collaboration.<br>Identify the game.<br>Act before the window closes.</h2>
+          <div class="stats">
+            <div><strong>3</strong><span>Progressive research papers</span></div>
+            <div><strong>10</strong><span>Governed computational laboratories</span></div>
+            <div><strong>4</strong><span>Incident stages: prevent, contain, remediate, redeploy</span></div>
+          </div>
+        </aside>
+      </div>
+
+      <div class="page hero-index" aria-label="Research sequence">
+        <a href="#journey"><span>01</span>Observation</a>
+        <a href="#journey"><span>02</span>Explanation</a>
+        <a href="#laboratories"><span>03</span>Diagnosis</a>
+        <a href="#laboratories"><span>04</span>Intervention</a>
+        <a href="#governance"><span>05</span>Governance</a>
+      </div>
+    </section>
+
+    <section class="section page" id="method">
+      <div class="split">
+        <div>
+          <p class="kicker">The Scientific Premise</p>
+          <h2>Agreement is not evidence of cooperation.</h2>
+        </div>
+        <p class="intro">Similar behavior can arise from shared priors, common signals, direct communication, repeated interaction, coalition value, external orchestration, or a familiar game expressed through an unfamiliar representation. The collection replaces intuition with explicit players, actions, information, incentives, interventions, and falsifiable alternatives.</p>
+      </div>
+
+      <div class="principles">
+        <article>
+          <span class="number">01</span>
+          <h3>Distinguish</h3>
+          <p>Separate common-cause correlation from strategically dependent behavior through controlled information and communication interventions.</p>
+        </article>
+        <article>
+          <span class="number">02</span>
+          <h3>Specify</h3>
+          <p>Make the game explicit: players, actions, beliefs, timing, rewards, memory, reputation, coalitions, and external effects.</p>
+        </article>
+        <article>
+          <span class="number">03</span>
+          <h3>Diagnose</h3>
+          <p>Choose safe probes, update beliefs over latent mechanisms, test held-out counterfactuals, and report underidentification.</p>
+        </article>
+        <article>
+          <span class="number">04</span>
+          <h3>Govern</h3>
+          <p>Acquire theory and provenance only when they improve prevention, containment, remediation, or bounded redeployment.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="roadmap" id="journey">
+      <div class="page">
+        <div class="roadmap-head">
+          <div>
+            <p class="kicker">The Research Journey · Five Movements</p>
+            <h2>From an incident to a science of institutional action.</h2>
+          </div>
+          <p>The sequence is cumulative. The event supplies the observation; game theory supplies disciplined explanations; controlled laboratories test mechanisms; decision analysis determines whether diagnosis arrives soon enough to matter; provenance connects the science to the incident lifecycle.</p>
+        </div>
+
+        <div class="stages">
+          <a class="stage" href="https://github.com/alexdibol/ai_game_theory/blob/main/THE%20ANATOMY%20OF%20AN%20AUTONOMOUS%20BREACH.pdf" target="_blank" rel="noopener">
+            <div class="stage-no">01</div>
+            <div class="stage-main"><span class="stage-label">Observe</span><h3>Anatomy of an Autonomous Breach</h3><p>Reconstruct the system boundaries, agent interactions, communication channels, exploit chain, and institutional failure sequence.</p></div>
+            <div class="stage-outcome"><strong>Research outcome</strong><p>A documented motivating observation: agents can create an unauthorized collaboration ecosystem across nominally separate runs.</p></div>
+            <div class="arrow">↗</div>
+          </a>
+
+          <a class="stage" href="https://github.com/alexdibol/ai_game_theory/blob/main/DISCUSION%20PAPER%20ON%20SPONTANEOUS%20COLLABORATION.pdf" target="_blank" rel="noopener">
+            <div class="stage-no">02</div>
+            <div class="stage-main"><span class="stage-label">Explain</span><h3>When AI Agents Cooperate Unexpectedly</h3><p>Organize competing explanations through cooperative and non-cooperative game theory, causal controls, and provenance.</p></div>
+            <div class="stage-outcome"><strong>Research outcome</strong><p>A hierarchy of explanations that resists premature claims about intention, deception, or universal agent behavior.</p></div>
+            <div class="arrow">↗</div>
+          </a>
+
+          <a class="stage" href="#laboratories">
+            <div class="stage-no">03</div>
+            <div class="stage-main"><span class="stage-label">Diagnose</span><h3>Recover the Hidden Strategic Mechanism</h3><p>Move from correlation to causal dependence, canonical games, coalitions, strategic opacity, and active inverse-game inference.</p></div>
+            <div class="stage-outcome"><strong>Research outcome</strong><p>A bounded observer that can probe, abstain, identify equivalence classes, and predict unseen interventions.</p></div>
+            <div class="arrow">↓</div>
+          </a>
+
+          <a class="stage" href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/09_Theory_Guided_vs_Model_Free_Intervention.ipynb" target="_blank" rel="noopener">
+            <div class="stage-no">04</div>
+            <div class="stage-main"><span class="stage-label">Intervene</span><h3>Test the Realized Value of Theory</h3><p>Count diagnostic error, delay, implementation time, control cost, residual harm, and irreversibility.</p></div>
+            <div class="stage-outcome"><strong>Research outcome</strong><p>A decision rule for diagnosis-first, containment-first, and layered containment-plus-diagnosis strategies.</p></div>
+            <div class="arrow">↗</div>
+          </a>
+
+          <a class="stage" href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/10_Provenance_VOI_and_Incident_Response.ipynb" target="_blank" rel="noopener">
+            <div class="stage-no">05</div>
+            <div class="stage-main"><span class="stage-label">Govern</span><h3>Treat Provenance as Institutional Capital</h3><p>Estimate when deeper causal information changes action enough to justify its acquisition cost and delay.</p></div>
+            <div class="stage-outcome"><strong>Research outcome</strong><p>Decision-relevant provenance at the right stage, resolution, and point in the control window.</p></div>
+            <div class="arrow">↗</div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section resources" id="papers">
+      <div class="page">
+        <div class="split">
+          <div>
+            <p class="kicker">The Three-Paper Architecture</p>
+            <h2>Read the event. Build the theory. Formalize the control problem.</h2>
+          </div>
+          <p class="intro">The papers are designed to be read in order. Together they move from a publicly disclosed incident, to the scientific problem of unexpected collaboration, to a formal cybersecurity methodology grounded in strategic opacity, active diagnosis, time-bounded intervention, and provenance-aware governance.</p>
+        </div>
+
+        <div class="resource-grid">
+          <article class="resource">
+            <span class="tag">Paper I · The Event</span>
+            <h3>Anatomy of an Autonomous Breach</h3>
+            <p>A comprehensive and pedagogical reconstruction of the OpenAI–Hugging Face incident, with emphasis on the spontaneous emergence of cross-agent communication, task adoption, shared discoveries, and collective capability.</p>
+            <p class="meta">Incident anatomy · Multi-agent behavior · Defensive lessons</p>
+            <a class="button" href="https://github.com/alexdibol/ai_game_theory/blob/main/THE%20ANATOMY%20OF%20AN%20AUTONOMOUS%20BREACH.pdf" target="_blank" rel="noopener">Read Paper I ↗</a>
+          </article>
+
+          <article class="resource dark">
+            <span class="tag">Paper II · The Explanation</span>
+            <h3>When AI Agents Cooperate Unexpectedly</h3>
+            <p>A game-theoretic framework for provenance, prevention, and institutional response. The paper separates common causes, communication, repetition, coalitions, orchestration, and representation while asking which distinctions change a decision.</p>
+            <p class="meta">Competing hypotheses · Cooperative games · Value of information</p>
+            <a class="button" href="https://github.com/alexdibol/ai_game_theory/blob/main/DISCUSION%20PAPER%20ON%20SPONTANEOUS%20COLLABORATION.pdf" target="_blank" rel="noopener">Read Paper II ↗</a>
+          </article>
+
+          <article class="resource featured">
+            <div>
+              <span class="tag">Paper III · The Methodology</span>
+              <p class="meta">Formal synthesis · Journal draft · Computational collection</p>
+            </div>
+            <div>
+              <h3>Cybersecurity When Autonomous AI Agents Collaborate</h3>
+              <p>A game-theoretic theory of strategic opacity, diagnosis, intervention, and provenance-aware control. The paper models the defender’s problem as a partially observed Bayesian stochastic game and integrates the complete ten-notebook collection.</p>
+              <a class="button" href="https://github.com/alexdibol/ai_game_theory/blob/main/PAPER%20GAME%20THEORY%20AI.pdf" target="_blank" rel="noopener">Read Paper III ↗</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section labs" id="laboratories">
+      <div class="page">
+        <div class="split">
+          <div>
+            <p class="kicker">The Computational Collection · Notebooks 1–10</p>
+            <h2>From causal identification to provenance-aware governance.</h2>
+          </div>
+          <p class="intro">Each notebook asks a bounded question, declares its null hypothesis and evidentiary limits, and preserves enough structure for criticism. The laboratories are synthetic and mechanism-oriented: they do not reproduce the real incident or establish universal properties of AI systems.</p>
+        </div>
+
+        <div class="lab-group">
+          <div class="lab-group-head">
+            <span>Arc I · 01–06</span>
+            <h3>Foundations of strategic collaboration</h3>
+          </div>
+          <div class="lab-grid">
+            <article class="lab-card">
+              <span class="lab-number">01</span>
+              <div><span class="lab-role">Causal identification</span><h3>Cooperation Beyond Correlation</h3><p>Distinguish strategic dependence from common-cause similarity by removing or preserving communication.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/01_Cooperation_Beyond_Correlation.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/01_Cooperation_Beyond_Correlation.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">02</span>
+              <div><span class="lab-role">Voluntary exchange</span><h3>Constructive Collaboration</h3><p>Test whether complementary information makes sharing instrumentally valuable when communication is permitted but not commanded.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/02_Constructive_Collaboration.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/02_Constructive_Collaboration.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">03</span>
+              <div><span class="lab-role">Phase topology</span><h3>Parameterized Seeding and Topology</h3><p>Map collaboration across trust, reward alignment, communication cost, connectivity, and controlled initial conditions.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/03_Parameterized_Seeding_and_Topology.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/03_Parameterized_Seeding_and_Topology.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">04</span>
+              <div><span class="lab-role">Rationality calibration</span><h3>Canonical Games</h3><p>Evaluate equilibrium consistency across Prisoner’s Dilemma, Stag Hunt, Chicken, coordination, and alternative representations.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/04_Rationality_Calibration_Canonical_Games.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/04_Rationality_Calibration_Canonical_Games.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">05</span>
+              <div><span class="lab-role">Dynamic persistence</span><h3>Repeated Games, Memory, and Reputation</h3><p>Study reciprocity, history dependence, implementation noise, persistence, and the conditions under which cooperation unravels.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/05_Repeated_Games_Memory_Reputation.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/05_Repeated_Games_Memory_Reputation.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">06</span>
+              <div><span class="lab-role">Coalition structure</span><h3>Coalitions and Collaborative Equilibria</h3><p>Separate coalition value, surplus allocation, contribution, stability, participation constraints, and external institutional harm.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/06_Coalitions_and_Collaborative_Equilibria.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/06_Coalitions_and_Collaborative_Equilibria.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+          </div>
+        </div>
+
+        <div class="lab-group">
+          <div class="lab-group-head">
+            <span>Arc II · 07–10</span>
+            <h3>Strategic opacity, diagnosis, control, and provenance</h3>
+          </div>
+          <div class="lab-grid">
+            <article class="lab-card">
+              <span class="lab-number">07</span>
+              <div><span class="lab-role">Representation</span><h3>Strategic Representation and Encoded Games</h3><p>Test whether an intelligent encoder can make a familiar game harder to identify while an independent oracle verifies exact strategic equivalence.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/07_Strategic_Representation_and_Encoded_Games_LLM_Adversarial.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/07_Strategic_Representation_and_Encoded_Games_LLM_Adversarial.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">08</span>
+              <div><span class="lab-role">Active inference</span><h3>Inverse-Game Diagnosis</h3><p>Recover a useful latent mechanism under a scarce experimental budget and evaluate prediction on unseen interventions.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/08_Inverse_Game_Diagnostic_Adaptive_Probes.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/08_Inverse_Game_Diagnostic_Adaptive_Probes.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">09</span>
+              <div><span class="lab-role">Time-bounded control</span><h3>Theory-Guided versus Model-Free Intervention</h3><p>Determine whether strategic diagnosis reduces realized loss once error, delay, implementation time, residual harm, and control cost are counted.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/09_Theory_Guided_vs_Model_Free_Intervention.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/09_Theory_Guided_vs_Model_Free_Intervention.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+
+            <article class="lab-card">
+              <span class="lab-number">10</span>
+              <div><span class="lab-role">Institutional information capital</span><h3>Provenance, Value of Information, and Incident Response</h3><p>Estimate when additional provenance changes prevention, containment, remediation, or redeployment enough to justify cost and delay.</p><div class="lab-links"><a href="https://github.com/alexdibol/ai_game_theory/blob/main/notebooks/10_Provenance_VOI_and_Incident_Response.ipynb" target="_blank" rel="noopener">GitHub ↗</a><a href="https://colab.research.google.com/github/alexdibol/ai_game_theory/blob/main/notebooks/10_Provenance_VOI_and_Incident_Response.ipynb" target="_blank" rel="noopener">Colab ↗</a></div></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section framework" id="governance">
+      <div class="page framework-grid">
+        <div>
+          <p class="kicker" style="color:white">The Institutional Obligation</p>
+          <h2>Contain effects. Preserve evidence. Remediate causes.</h2>
+        </div>
+        <div>
+          <blockquote>Strategic explanation is institutionally material only when it changes a decision, reduces expected loss, improves prevention of recurrence, or alters the conditions under which a system may return to operation.</blockquote>
+          <div class="duties">
+            <div class="duty"><strong>Act on consequential effects</strong><span>Capability, access, propagation, impact, and reversibility can justify protection before causal attribution is complete.</span></div>
+            <div class="duty"><strong>Preserve option value</strong><span>Trusted evidence can improve later remediation and redeployment even when it does not change immediate containment.</span></div>
+            <div class="duty"><strong>Resolve decision-relevant uncertainty</strong><span>Different scientific explanations need not be separated when they imply the same action at the current stage.</span></div>
+            <div class="duty"><strong>Bound autonomy by evidence</strong><span>Unresolved strategic opacity should narrow permissions, tool access, communication, persistence, and redeployment scope.</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page experience">
+      <div class="split">
+        <div>
+          <p class="kicker">The Research Protocol</p>
+          <h2>Built for movement—from narrative to falsifiable judgment.</h2>
+        </div>
+        <p class="intro">The collection is not designed to decorate a preferred conclusion. Each stage makes assumptions visible, introduces a meaningful control or benchmark, and asks what evidence would weaken the proposed explanation.</p>
+      </div>
+      <div class="cycle">
+        <article><span>01</span><h3>Read</h3><p>Establish the incident, theory, definitions, alternative mechanisms, and institutional decision problem.</p></article>
+        <article><span>02</span><h3>Run</h3><p>Execute safe synthetic laboratories with declared seeds, parameters, models, prompts, and evidence boundaries.</p></article>
+        <article><span>03</span><h3>Falsify</h3><p>Apply negative controls, equivalence oracles, counterfactual probes, holdouts, abstention, and model-class failure tests.</p></article>
+        <article><span>04</span><h3>Decide</h3><p>Translate what is known—and what remains unresolved—into time-aware, human-accountable institutional action.</p></article>
+      </div>
+    </section>
+
+    <section class="section author">
+      <div class="page author-grid">
+        <div class="author-mark" aria-hidden="true"><span>AR</span></div>
+        <div>
+          <p class="kicker">Academic Direction</p>
+          <h2>Alejandro Reynoso</h2>
+          <p>Honorary Fellow and External Lecturer at Cambridge Judge Business School; Independent Board Member at BIVA; Founder and Chief Scientist of DEFI Capital Research; financial-markets practitioner, researcher, and educator.</p>
+          <p>The program brings together cooperative and non-cooperative game theory, autonomous AI, cybersecurity, causal diagnosis, information economics, institutional governance, and professional responsibility in a single research architecture.</p>
+          <p class="disclosure"><strong>AI-assisted, human-led.</strong> Generative AI systems assisted parts of literature exploration, drafting, coding, debugging, simulation design, and editorial refinement. The author retains responsibility for conceptual direction, hypotheses, methods, interpretation, factual claims, and publication. The repository is released under the MIT License; the materials are educational and do not constitute legal, regulatory, investment, cybersecurity, or technology advice.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="page footer-grid">
+      <div><strong>Collaborative Game Theory in the Age of AI</strong><br>Independent research · Educational and defensive use · © 2026 Alejandro Reynoso</div>
+      <div><a href="https://github.com/alexdibol/ai_game_theory" target="_blank" rel="noopener">GitHub ↗</a><a href="https://github.com/alexdibol/ai_game_theory/blob/main/LICENSE" target="_blank" rel="noopener">MIT License ↗</a><a href="#top">Back to top ↑</a></div>
+    </div>
+  </footer>
+</body>
+</html>
